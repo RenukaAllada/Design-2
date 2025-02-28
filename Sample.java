@@ -44,6 +44,7 @@ class MyQueue {
     }
 }
 
+
 /**
  * Your MyQueue object will be instantiated and called as such:
  * MyQueue obj = new MyQueue();
@@ -52,6 +53,9 @@ class MyQueue {
  * int param_3 = obj.peek();
  * boolean param_4 = obj.empty();
  */
+
+/********************PROBLEM-2*************/
+//SEPERATE CHAINING
 
 // Time Complexity : O(N) for put, get and remove
 // Space Complexity : 0(N)
@@ -126,6 +130,69 @@ class MyHashMap {
             Node prev=find(storage[bucketValue],key);
             if(prev.next!=null){
                 prev.next=prev.next.next;
+            }
+        }
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */
+
+//Double hashing
+//TC: 0(1)
+//SC: 0(1)
+class MyHashMap {
+    private Integer[][] storage;
+    private int buckets;
+
+    public MyHashMap() {
+        this.buckets=1000;
+        storage=new Integer[this.buckets][];
+    }
+
+    private int getBucket(int key){
+        return key%buckets;
+    }
+
+    private int getBucketValue(int key){
+        return key/buckets;
+    }
+
+    public void put(int key, int value) {
+        int buckets=getBucket(key);
+        if(storage[buckets]==null){
+            if(buckets==0){
+                storage[buckets]=new Integer[1001];
+            }else{
+                storage[buckets]=new Integer[1000];
+            }
+        }
+        int bucketValue=getBucketValue(key);
+        storage[buckets][bucketValue]=value;
+    }
+
+    public int get(int key) {
+        int buckets=getBucket(key);
+        int bucketValue=getBucketValue(key);
+        if(storage[buckets]!=null){
+            if(storage[buckets][bucketValue]!=null){
+                return storage[buckets][bucketValue];
+            }
+        }
+        return -1;
+    }
+
+    public void remove(int key) {
+        int buckets=getBucket(key);
+        int bucketValue=getBucketValue(key);
+        if(storage[buckets]!=null){
+            if(storage[buckets][bucketValue]!=null){
+                storage[buckets][bucketValue]=null;
             }
         }
     }
